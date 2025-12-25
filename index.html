@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineScope - Movie Review Community</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ==========================
+   🌟 STYLE UTAMA CINESCOPE
+========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar {
+  background-color: #111;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand h1 {
+  color: #e50914;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 400px;
+  margin: 0 2rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 1px solid #333;
+  border-radius: 4px 0 0 4px;
+  background-color: #1a1a1a;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.search-btn {
+  padding: 0.8rem 1rem;
+  background-color: #e50914;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #e50914;
+}
+
+/* Tombol Login Merah */
+.nav-btn {
+  background-color: #e50914;
+  color: #ffffff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #b8070f;
+  transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.7) 100%),
+              url('images/background.jpeg') no-repeat center center/cover;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-content h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #e50914;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #b8070f;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  padding: 1rem 2rem;
+  border: 2px solid white;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Sections */
+.trending-section, .new-section {
+  padding: 4rem 0;
+}
+
+.trending-section h3, .new-section h3 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+  text-align: center;
+}
+
+/* Movies Grid */
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.movie-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(229, 9, 20, 0.3);
+}
+
+.movie-poster {
+
+  object-fit: cover;
+  width: 616px; /* Ukuran container yang diinginkan */
+    height: 353px;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-info {
+  padding: 1rem;
+}
+
+.movie-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.movie-year {
+  color: #000000;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.stars {
+  color: #ffd700;
+}
+
+.rating-value {
+  color: #ccc;
+  font-weight: 500;
+}
+
+.movie-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.watch-btn {
+  background-color: #e50914;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.review-btn {
+  background-color: transparent;
+  color: #ccc;
+  padding: 0.5rem 1rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  background-color: #111;
+  padding: 3rem 0 1rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+  color: #e50914;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.footer-section p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.footer-section a {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #e50914;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  font-size: 1.5rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+  text-align: center;
+  color: #888;
+}
+
+/* ==========================
+   📝 DETAIL MOVIE PAGE
+========================== */
+.detail-container {
+  max-width: 1000px;
+  margin: 4rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 0 20px;
+}
+
+.detail-poster {
+  flex: 1 1 300px;
+  max-width: 350px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(229, 9, 20, 0.3);
+}
+
+.detail-info {
+  flex: 2 1 500px;
+}
+
+.detail-info h2 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detail-info p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.detail-meta {
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.trailer-frame {
+  width: 100%;
+  height: 400px;
+  margin-top: 1.5rem;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Tombol di halaman detail */
+.detail-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.detail-buttons button {
+  background-color: hwb(357 4% 10%);
+  border: none;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.detail-buttons button:hover {
+  background-color: #b8070f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-search {
+    margin: 1rem 0;
+    max-width: 100%;
+  }
+
+  .hero-content h2 {
+    font-size: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .detail-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .detail-poster {
+    width: 80%;
+  }
+
+  .trailer-frame {
+    height: 250px;}
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h1>CineScope</h1>
+      </div>
+      <div class="nav-search">
+        <input type="text" placeholder="Cari film, sutradara, atau aktor..." class="search-input">
+        <button class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="nav-menu">
+      </div>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Jelajahi, Review, dan Bagikan Pengalaman Film Anda</h2>
+      <p>Bergabunglah dengan komunitas pencinta film terbesar di Indonesia</p>
+     <div class="hero-buttons">
+            <a href="bergabung sekarang.html" class="btn btn-primary">Bergabung Sekarang</a>
+            <a href="login.html" class="btn btn-secondary">Login</a>
+        </div>
+    </div>
+  </section>
+ <!-- ===== SEDANG TRENDING ===== -->
+ <!-- ===== SEDANG TRENDING ===== -->
+<section class="section new-section">
+    <div class="container">
+        <h2 class="section-title">
+            <i class="fas fa-calendar-alt"></i> Rekomendasi
+        </h2>
+        <div class="movies-grid">
+            <!-- Film Rilis Terbaru 1 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest sore.html">
+                    <img src="c:\xampp\htdocs\movie-review\download.jpeg" alt="The Last Kingdom">  
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0277bd, #0288d1); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🚀</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                    </div>
+                </a>
+
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Sore</div>
+                    <div class="movie-year">10 Juli 2025</div>
+                    <div class="movie-genre">Drama Romantis-Fantasi Ilmiah</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 8.1/10
+                    </div>
+                </div>
+            </div>
+
+            <!-- Film Rilis Terbaru 2 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest petakagunung gede.html">
+                     <img src="c:\Users\Admin\Downloads\images (2).jpeg"> 
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #00897b, #26a69a); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🌊</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                      </a> 
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Petaka Gunung Gede</div>
+                    <div class="movie-year">19 Juni 2025</div>
+                    <div class="movie-genre">Horor-Petualangan</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 7.9/10
+                    </div>
+                </div>
+            </div>
+
+            <!-- Film Rilis Terbaru 3 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest dilan 1990.html">
+                     <img src="c:\Users\Admin\Downloads\foto ssssssss\MV5BNjE1M2NkN2UtZjYzMS00ZjMyLWI2NDctYTFlMDg3MzI5MzJhXkEyXkFqcGc@._V1_.jpg" alt="The Last Kingdom">  
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #558b2f, #9ccc65); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🌿</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                        </a>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Dilan 1990</div>
+                    <div class="movie-year">25 Januari 2018</div>
+                    <div class="movie-genre">Documentary, Drama</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 8.4/10
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ===== RILIS TERBARU ===== -->
+<section class="section new-section">
+    <div class="container">
+        <h2 class="section-title">
+            <i class="fas fa-calendar-alt"></i> Rilis Terbaru
+        </h2>
+        <div class="movies-grid">
+            <!-- Film Rilis Terbaru 1 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest rest area.html">
+                     <img src="c:\Users\Admin\Downloads\foto ssssssss\15RARA.jpg" alt="The Last Kingdom">  
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0277bd, #0288d1); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🚀</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                        </a>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Rest Area</div>
+                    <div class="movie-year">2 Oktober 2025</div>
+                    <div class="movie-genre">Horor</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 8.1/10
+                    </div>
+                </div>
+            </div>
+
+            <!-- Film Rilis Terbaru 2 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest tukar takdir.html">
+                     <img src="c:\Users\Admin\Downloads\foto ssssssss\15TTAR.jpg" alt="The Last Kingdom">  
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #00897b, #26a69a); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🌊</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                       </a>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Tukar Takdir</div>
+                    <div class="movie-year">2025</div>
+                    <div class="movie-genre">2 Oktober 2025</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 7.9/10
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Film Rilis Terbaru 3 -->
+            <div class="movie-card">
+                <div class="movie-poster">
+                    <a href="guest rangga.html">
+                     <img src="c:\Users\Admin\Downloads\foto ssssssss\1431732_720.jpg" alt="The Last Kingdom">  
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #558b2f, #9ccc65); display: flex; align-items: flex-end; justify-content: flex-end; padding: 10px;">
+                        <span style="font-size: 40px;">🌿</span>
+                    </div>
+                    <div class="new-badge">
+                        <i class="fas fa-star"></i> Baru
+                    </div>
+                    <div class="rating-badge">
+                        </a>
+                    </div>
+                </div>
+                <div class="movie-info">
+                    <div class="movie-title">Rangga & cinta</div>
+                    <div class="movie-year">2 Oktober 2025</div>
+                    <div class="movie-genre">Drama-Romantis</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star"></i> 8.4/10
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>CineScope</h4>
+          <p>Platform review film terbaik untuk komunitas pencinta cinema Indonesia</p>
+        </div>
+        <div class="footer-section">
+          <h4>Tautan</h4>
+          <a href="tentang kami.html">Tentang Kami</a>
+          <a href="kebijakan privasi.html">Kebijakan Privasi</a>
+          <a href="syarat & ketentuan.html">Syarat & Ketentuan</a>
+        </div>
+        <div class="footer-section">
+          <h4>Ikuti Kami</h4>
+          <div class="social-links">
+            <a href="https://x.com/piesekkn?t=n4wxmydCKx6Oy_aQHDTZTQ&s=09"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.facebook.com/share/17aUUywEem/"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/fernandokinansyah_?igsh=MTdrNGplNThmNTVvdw=="><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 CineScope. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+  // ==========================================================
+// 🎬 AMBIL DATA FILM DARI BACKEND
+// ==========================================================
+let moviesData = [];
+
+async function loadMovies() {
+  try {
+    const response = await fetch("http://localhost/movie-review/get_movies.php");
+    const result = await response.json();
+
+    if (result.success && result.data?.movies) {
+      moviesData = result.data.movies.map(movie => ({
+        id: movie.id,
+        title: movie.title,
+        year: movie.release_year,
+        genre: movie.genre,
+        rating: movie.average_rating || 0,
+        image: "http://localhost/movie-review/uploads/" + (movie.poster || "no-image.jpg"),
+        description: movie.synopsis || "Deskripsi tidak tersedia"
+      }));
+    } else {
+      console.warn("⚠️ Gagal mengambil data film:", result.message);
+    }
+  } catch (err) {
+    console.error("❌ Error saat mengambil data film:", err);
+  }
+}
+
+    // ==========================================================
+    // 🔗 FUNGSI UTILITY: MENENTUKAN LINK FILM (SUDAH DIPERBAIKI)
+    // ==========================================================
+    function getMovieDetailLink(movieTitle) {
+        const titleLower = movieTitle.toLowerCase().trim();
+        
+        // Map SEMUA tautan ke file Ulasan (VIEW ONLY)
+        const ulasanMap = {
+            "sore": "ulasan sore.html",
+            "petaka gunung gede": "ulasan petaka gunung gede.html",
+            "dilan 1990": "ulasan dilan.html",
+            "rest area": "ulasan rest area.html",
+            "tukar takdir": "ulasan tukartakdir.html",
+            "rangga & cinta": "ulasan rangga.html"
+        };
+
+        const ulasanLink = ulasanMap[titleLower];
+        
+        // Fallback: Jika tidak terdaftar di map, buat link ulasan default
+        return ulasanLink || `ulasan-${titleLower.replace(/ /g, '-').replace(/'/g, '')}.html`;
+    }
+
+    // ==========================================================
+    // 📊 FUNGSI RATING & TRENDING (Dibutuhkan untuk tampilkan data)
+    // ==========================================================
+
+    // Mengambil semua ulasan yang ada di localStorage
+    function getAllReviews() {
+        const reviewKeys = ["soreReviews", "petakaGunungGedeReviews", "dilan1990Reviews", "restAreaReviews", "tukarTakdirReviews", "ranggaCintaReviews"];
+        let allReviews = {};
+
+        reviewKeys.forEach(key => {
+            const reviews = JSON.parse(localStorage.getItem(key)) || [];
+            if (reviews.length > 0) {
+                // Menghitung rata-rata rating dan jumlah review
+                const totalRating = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+                allReviews[key] = {
+                    averageRating: reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : '8.0', // Default jika tidak ada
+                    reviewCount: reviews.length
+                };
+            }
+        });
+        
+        // Menggabungkan dengan data trending lama
+        const trendingData = JSON.parse(localStorage.getItem("movieTrendingData")) || {};
+        
+        // Gabungkan hasil kalkulasi terbaru dengan data trending yang mungkin ada
+        const combinedMetrics = { ...trendingData };
+
+        // Prioritaskan hasil kalkulasi rinci dari file ulasan jika ada
+        if (allReviews.soreReviews) combinedMetrics["Sore"] = { rating: parseFloat(allReviews.soreReviews.averageRating) || 8.1, count: allReviews.soreReviews.reviewCount };
+        if (allReviews.petakaGunungGedeReviews) combinedMetrics["Petaka Gunung Gede"] = { rating: parseFloat(allReviews.petakaGunungGedeReviews.averageRating) || 7.9, count: allReviews.petakaGunungGedeReviews.reviewCount };
+        if (allReviews.dilan1990Reviews) combinedMetrics["Dilan 1990"] = { rating: parseFloat(allReviews.dilan1990Reviews.averageRating) || 8.4, count: allReviews.dilan1990Reviews.reviewCount };
+        if (allReviews.restAreaReviews) combinedMetrics["Rest Area"] = { rating: parseFloat(allReviews.restAreaReviews.averageRating) || 7.2, count: allReviews.restAreaReviews.reviewCount };
+        if (allReviews.tukarTakdirReviews) combinedMetrics["Tukar Takdir"] = { rating: parseFloat(allReviews.tukarTakdirReviews.averageRating) || 8.6, count: allReviews.tukarTakdirReviews.reviewCount };
+        if (allReviews.ranggaCintaReviews) combinedMetrics["Rangga & Cinta"] = { rating: parseFloat(allReviews.ranggaCintaReviews.averageRating) || 9.0, count: allReviews.ranggaCintaReviews.reviewCount };
+
+        // Tambahkan dummy data untuk film yang tidak memiliki key spesifik
+        if (!combinedMetrics["Sore"]) combinedMetrics["Sore"] = { rating: 8.1, count: 50 };
+        if (!combinedMetrics["Petaka Gunung Gede"]) combinedMetrics["Petaka Gunung Gede"] = { rating: 7.9, count: 45 };
+        if (!combinedMetrics["Dilan 1990"]) combinedMetrics["Dilan 1990"] = { rating: 8.4, count: 70 };
+        if (!combinedMetrics["Rest Area"]) combinedMetrics["Rest Area"] = { rating: 7.2, count: 30 };
+        if (!combinedMetrics["Tukar Takdir"]) combinedMetrics["Tukar Takdir"] = { rating: 8.6, count: 65 };
+        if (!combinedMetrics["Rangga & Cinta"]) combinedMetrics["Rangga & Cinta"] = { rating: 9.0, count: 80 };
+
+        return combinedMetrics;
+    }
+
+    // Hitung skor trending
+    function calculateTrendingMetrics() {
+        const metrics = getAllReviews();
+        const movieMetrics = {};
+        for (const title in metrics) {
+            // Skor = (Rating * 10) + (Jumlah Review * 0.5)
+            const score = (metrics[title].rating * 10) + (metrics[title].count * 0.5);
+            movieMetrics[title] = { 
+                ...metrics[title], 
+                score: score 
+            };
+        }
+        return movieMetrics;
+    }
+
+    // Urutkan film berdasarkan skor trending
+    function getTrendingFilms(metrics) {
+        const sortedTitles = Object.keys(metrics).sort((a, b) => {
+            return metrics[b].score - metrics[a].score;
+        });
+
+        // Ambil data film lengkap
+        const trendingFilms = sortedTitles.map(title => {
+            const movie = moviesData.find(m => m.title === title) || {};
+            return {
+                ...movie,
+                rating: metrics[title].rating.toFixed(1) || movie.rating, // Update rating dari data trending
+                score: metrics[title].score.toFixed(2)
+            };
+        });
+
+        return trendingFilms.slice(0, 5); // Ambil 5 film teratas
+    }
+    
+    // Update rating di moviesData dari data review
+    function updateMovieRatingsFromReviews() {
+        const metrics = getAllReviews();
+        moviesData.forEach(movie => {
+            const metric = metrics[movie.title];
+            if (metric && metric.rating) {
+                movie.rating = metric.rating.toFixed(1);
+            }
+        });
+    }
+
+    // ==========================================================
+    // 🎨 FUNGSI RENDER HTML
+    // ==========================================================
+    
+    // Render list film biasa atau hasil search
+    function renderMovieCards(containerId, movies) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = ''; 
+
+        movies.forEach(movie => {
+            const detailLink = getMovieDetailLink(movie.title); // Menggunakan link Ulasan
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            
+            // Tambahkan event listener agar seluruh area card mengarah ke link ulasan
+            card.onclick = () => { window.location.href = detailLink; };
+
+            card.innerHTML = `
+                <img src="${movie.image}" alt="Poster ${movie.title}" class="movie-poster">
+                <div class="movie-info">
+                    <h3>${movie.title}</h3>
+                    <div class="movie-meta">
+                        <div class="movie-genre">${movie.genre}</div>
+                        <div class="movie-rating"><i class="fas fa-star" style="color:#ffc107;"></i> ${movie.rating}/10</div>
+                    </div>
+                </div>`;
+            container.appendChild(card);
+        });
+    }
+    
+    // Render film di section Trending Now
+    function renderMovieCards(containerId, movies) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.warn("Container tidak ditemukan:", containerId);
+        return;
+    }
+    
+    container.innerHTML = ''; 
+
+    if (!movies || movies.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#666;">Belum ada film tersedia</div>';
+        return;
+    }
+
+    movies.forEach(movie => {
+        const detailLink = getMovieDetailLink(movie.title);
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        
+        // Gunakan poster dari backend, atau placeholder jika kosong
+        const posterUrl = movie.image || movie.poster || 'https://via.placeholder.com/300x450/667eea/ffffff?text=' + encodeURIComponent(movie.title);
+        
+        card.onclick = () => { window.location.href = detailLink; };
+
+        card.innerHTML = `
+            <img src="${posterUrl}" 
+                 alt="Poster ${movie.title}" 
+                 class="movie-poster"
+                 onerror="this.src='https://via.placeholder.com/300x450/667eea/ffffff?text=No+Image'">
+            <div class="movie-info">
+                <h3>${movie.title}</h3>
+                <div class="movie-meta">
+                    <div class="movie-genre">${movie.genre || 'General'}</div>
+                    <div class="movie-rating">
+                        <i class="fas fa-star" style="color:#ffc107;"></i> 
+                        ${movie.rating || '7.5'}/10
+                    </div>
+                </div>
+            </div>`;
+        container.appendChild(card);
+    });
+    
+    console.log(`✅ Rendered ${movies.length} film ke ${containerId}`);
+}
+
+    // ==========================================================
+    // 🔍 FUNGSI SEARCH BAR & INISIALISASI
+    // ==========================================================
+    function initializeSearch() {
+        const searchInput = document.querySelector(".search-input");
+        const searchBtn = document.querySelector(".search-btn");
+        
+        // Render film rekomendasi awal
+        renderMovieCards("recommendedList", moviesData);
+
+        const performSearch = () => {
+            const q = searchInput.value.toLowerCase().trim();
+            
+            // Jika query kosong, tampilkan semua film
+            if (!q) return renderMovieCards("recommendedList", moviesData);
+
+            // Filter film
+            const filtered = moviesData.filter(m =>
+                m.title.toLowerCase().includes(q) ||
+                m.genre.toLowerCase().includes(q) ||
+                m.description.toLowerCase().includes(q)
+            );
+            
+            // Render hasil filter
+            renderMovieCards("recommendedList", filtered);
+        };
+
+        // Event listener untuk tombol dan ketikan (keyup)
+        if (searchInput) searchInput.addEventListener("keyup", performSearch);
+        if (searchBtn) searchBtn.addEventListener("click", e => { e.preventDefault(); performSearch(); });
+    }
+
+    // ==========================================================
+// 🔄 SAAT HALAMAN DIMUAT (VERSI BARU, PAKAI BACKEND)
+// ==========================================================
+document.addEventListener("DOMContentLoaded", async function() {
+  // 🔥 1. Ambil data film dari backend
+  await loadMovies(); // fungsi ini kita tambahkan di atas
+
+  // 2. Update rating di data film (kalau ada dari localStorage)
+  updateMovieRatingsFromReviews();
+
+  // 3. Hitung film trending berdasarkan review
+  const filmMetrics = calculateTrendingMetrics();
+  const trendingFilms = getTrendingFilms(filmMetrics);
+  renderTrending(trendingFilms);
+
+  // 4. Tampilkan daftar film rekomendasi
+  initializeSearch();
+
+  console.log("✅ Semua film berhasil dimuat dari backend!");
+});
+
+    // Tambahkan fungsi global agar halaman lain bisa me-refresh trending (jika dibuka di jendela baru)
+    window.refreshTrendingNow = function() {
+        updateMovieRatingsFromReviews();
+        const filmMetrics = calculateTrendingMetrics();
+        const trendingFilms = getTrendingFilms(filmMetrics);
+        renderTrending(trendingFilms);
+        initializeSearch();
+    }
+    // ======== 🔍 FITUR SEARCH TANPA MENGUBAH TAMPILAN ========
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.querySelector(".search-input");
+  const searchBtn = document.querySelector(".search-btn");
+  const movieCards = document.querySelectorAll(".movie-card");
+
+  function searchMovies() {
+    const query = searchInput.value.toLowerCase().trim();
+
+    movieCards.forEach(card => {
+      const title = card.querySelector(".movie-title")?.textContent.toLowerCase() || "";
+      const genre = card.querySelector(".movie-genre")?.textContent.toLowerCase() || "";
+      if (title.includes(query) || genre.includes(query) || query === "") {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("keyup", searchMovies);
+  }
+  if (searchBtn) {
+    searchBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      searchMovies();
+    });
+  }
+});
+
+</script>
+</body>
+</html>

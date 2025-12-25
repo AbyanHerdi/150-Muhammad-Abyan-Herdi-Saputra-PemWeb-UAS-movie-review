@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside Out 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+            border-left: 5px solid #f093fb;
+            padding-left: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .meta-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7em;
+        }
+
+        .content-section {
+            margin-top: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            border-left: 4px solid #f093fb;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: justify;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        p::first-letter {
+            font-size: 3em;
+            font-weight: bold;
+            float: left;
+            line-height: 0.8;
+            margin: 5px 10px 0 0;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quote-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-size: 80px;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            color: #f093fb;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .rating-number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #f093fb, transparent);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+
+            .rating-number {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back(); return false;">
+            ← Kembali ke Beranda
+        </a>
+        
+        <div class="header-section">
+            <h1>Inside Out 2: Petualangan Emosi yang Semakin Dalam</h1>
+            
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>14 Juni 2024</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span>96 Menit</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🎬</span>
+                    <span>Kelsey Mann</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <span class="tag">Animasi</span>
+            <span class="tag">Keluarga</span>
+            <span class="tag">Komedi</span>
+            <span class="tag">Pixar</span>
+        </div>
+
+        <div class="rating-section">
+            <div class="rating-number">3.8</div>
+            <div>
+                <div class="stars">★★★★☆</div>
+                <div style="font-size: 0.9em; margin-top: 5px;">Rating IMDb</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <p>Pixar kembali menghadirkan kisah penuh makna dengan memperkenalkan emosi baru seperti Cemas dan Iri, membuat film ini semakin relevan dengan remaja masa kini. Riley yang kini beranjak remaja menghadapi tantangan baru yang lebih kompleks dari sebelumnya.</p>
+            
+            <div class="highlight-box">
+                💡 Film ini memperkenalkan emosi-emosi baru seperti Anxiety (Cemas), Envy (Iri), Embarrassment (Malu), dan Ennui (Bosan) yang sempurna menggambarkan pergolakan emosional remaja.
+            </div>
+            
+            <p>Yang brilian dari film ini adalah bagaimana Pixar menerjemahkan konsep psikologi yang rumit menjadi visual yang mudah dipahami dan menghibur untuk semua usia. Anxiety digambarkan sebagai karakter yang hiperaktif dan overthinking, sesuatu yang sangat relatable di era modern ini dimana kesehatan mental semakin menjadi perhatian.</p>
+            
+            <div class="divider"></div>
+            
+            <p>Film ini juga menunjukkan bahwa tidak ada emosi yang "buruk" - semuanya memiliki fungsi dan tujuan. Bahkan Anxiety, yang sering dianggap negatif, sebenarnya hadir untuk melindungi kita dari bahaya. Ini adalah pelajaran penting tentang penerimaan diri dan memahami bahwa semua perasaan kita valid.</p>
+            
+            <div class="quote-section">
+                <p style="margin: 0; font-style: italic; color: #555;">
+                    Pixar sekali lagi membuktikan bahwa mereka adalah master dalam storytelling emosional yang dapat menyentuh hati penonton dari segala usia.
+                </p>
+            </div>
+            
+            <p>Dengan animasi yang semakin canggih dan cerita yang penuh hati, "Inside Out 2" bukan hanya film anak-anak. Ini adalah film untuk siapa saja yang pernah merasa cemas, bingung dengan identitas diri, atau mencoba memahami emosi mereka sendiri. Film ini mengajarkan kita untuk merangkul semua aspek dari diri kita, termasuk bagian-bagian yang membuat kita merasa tidak nyaman.</p>
+        </div>
+    </div>
+</body>
+</html>

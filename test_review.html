@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Review System</title>
+</head>
+<body>
+    <h1>Test Submit Review</h1>
+    <button onclick="testSubmit()">Test Kirim Review</button>
+    <pre id="result"></pre>
+
+    <script>
+    async function testSubmit() {
+        const data = {
+            movie_title: "Dilan 1990",
+            rating: 5,
+            review_text: "Test review dari test_review.html",
+            user_name: "Test User"
+        };
+
+        console.log("Sending:", data);
+        document.getElementById('result').textContent = "Sending...\n" + JSON.stringify(data, null, 2);
+
+        try {
+            const response = await fetch('http://localhost/movie-review/submit_review.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            console.log("Response status:", response.status);
+            
+            const text = await response.text();
+            console.log("Response text:", text);
+            
+            const result = JSON.parse(text);
+            console.log("Result:", result);
+
+            document.getElementById('result').textContent = 
+                "SUCCESS!\n\n" + JSON.stringify(result, null, 2);
+
+            if (result.success) {
+                alert("✅ BERHASIL!\nCek database sekarang!");
+            } else {
+                alert("❌ GAGAL: " + result.message);
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('result').textContent = 
+                "ERROR: " + error.message;
+            alert("❌ Error: " + error.message);
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Tester - Movie Review</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+        .success { background: #28a745; color: white; }
+        .error { background: #dc3545; color: white; }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .token-info {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Movie Review API Tester</h1>
+        
+        <div class="token-info">
+            <strong>Current Token:</strong> <span id="tokenDisplay">Not logged in</span>
+            <button onclick="clearToken()">Clear Token</button>
+        </div>
+
+        <!-- AUTH SECTION -->
+        <div class="test-section">
+            <h2>🔐 Authentication Tests</h2>
+            
+            <h3>Register</h3>
+            <input type="text" id="regUsername" placeholder="Username">
+            <input type="email" id="regEmail" placeholder="Email">
+            <input type="password" id="regPassword" placeholder="Password">
+            <input type="text" id="regFullName" placeholder="Full Name">
+            <button onclick="testRegister()">Register</button>
+            
+            <h3 style="margin-top: 20px;">Login</h3>
+            <input type="text" id="loginUsername" placeholder="Username or Email" value="admin">
+            <input type="password" id="loginPassword" placeholder="Password" value="password">
+            <button onclick="testLogin()">Login</button>
+            
+            <button onclick="testGetProfile()">Get Profile</button>
+            <button onclick="testLogout()">Logout</button>
+            
+            <div class="result" id="authResult"></div>
+        </div>
+
+        <!-- MOVIES SECTION -->
+        <div class="test-section">
+            <h2>🎥 Movies Tests</h2>
+            
+            <button onclick="testGetMovies()">Get All Movies</button>
+            <button onclick="testGetMovie(1)">Get Movie Detail (ID: 1)</button>
+            <button onclick="testSearchMovies()">Search "Inception"</button>
+            <button onclick="testTrendingMovies()">Get Trending</button>
+            <button onclick="testTopRated()">
+                <button onclick="testTopRated()">Get Top Rated</button>
+            <button onclick="testGetGenres()">Get All Genres</button>
+            <button onclick="testMoviesByGenre()">Get by Genre (Drama)</button>
+            
+            <h3 style="margin-top: 20px;">Create Movie (Admin Only)</h3>
+            <input type="text" id="movieTitle" placeholder="Movie Title">
+            <input type="number" id="movieYear" placeholder="Release Year">
+            <input type="text" id="movieGenre" placeholder="Genre">
+            <button onclick="testCreateMovie()">Create Movie</button>
+            
+            <div class="result" id="moviesResult"></div>
+        </div>
+
+        <!-- REVIEWS SECTION -->
+        <div class="test-section">
+            <h2>⭐ Reviews Tests</h2>
+            
+            <button onclick="testGetReviewsByMovie(1)">Get Reviews (Movie ID: 1)</button>
+            <button onclick="testCheckUserReview(1)">Check My Review (Movie ID: 1)</button>
+            
+            <h3 style="margin-top: 20px;">Create Review</h3>
+            <input type="number" id="reviewMovieId" placeholder="Movie ID" value="1">
+            <input type="number" id="reviewRating" placeholder="Rating (0-10)" value="9.5" step="0.1">
+            <textarea id="reviewText" placeholder="Review text" rows="3">Great movie! Highly recommended!</textarea>
+            <label>
+                <input type="checkbox" id="reviewSpoiler"> Contains Spoiler
+            </label>
+            <button onclick="testCreateReview()">Create Review</button>
+            
+            <button onclick="testMarkHelpful(1)">Mark Review #1 Helpful</button>
+            
+            <div class="result" id="reviewsResult"></div>
+        </div>
+
+        <!-- WATCHLIST SECTION -->
+        <div class="test-section">
+            <h2>📋 Watchlist Tests</h2>
+            
+            <button onclick="testGetWatchlist()">Get My Watchlist</button>
+            <button onclick="testCheckWatchlist(2)">Check Movie #2 in Watchlist</button>
+            
+            <input type="number" id="watchlistMovieId" placeholder="Movie ID" value="2">
+            <button onclick="testAddToWatchlist()">Add to Watchlist</button>
+            <button onclick="testRemoveFromWatchlist()">Remove from Watchlist</button>
+            
+            <div class="result" id="watchlistResult"></div>
+        </div>
+
+        <!-- UPLOAD SECTION -->
+        <div class="test-section">
+            <h2>📤 Upload Tests</h2>
+            
+            <h3>Upload Poster</h3>
+            <input type="file" id="posterFile" accept="image/*">
+            <button onclick="testUploadPoster()">Upload Poster</button>
+            
+            <h3 style="margin-top: 20px;">Upload Profile Picture</h3>
+            <input type="file" id="profileFile" accept="image/*">
+            <button onclick="testUploadProfile()">Upload Profile</button>
+            
+            <div class="result" id="uploadResult"></div>
+        </div>
+
+        <!-- STATS SECTION -->
+        <div class="test-section">
+            <h2>📊 Statistics Tests (Admin Only)</h2>
+            
+            <button onclick="testGetStats()">Get Dashboard Stats</button>
+            
+            <div class="result" id="statsResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost/movie-review/api';
+        let token = localStorage.getItem('token');
+        
+        // Update token display
+        function updateTokenDisplay() {
+            const display = document.getElementById('tokenDisplay');
+            if (token) {
+                display.textContent = token.substring(0, 20) + '...';
+                display.style.color = '#28a745';
+            } else {
+                display.textContent = 'Not logged in';
+                display.style.color = '#dc3545';
+            }
+        }
+        updateTokenDisplay();
+        
+        function clearToken() {
+            token = null;
+            localStorage.removeItem('token');
+            updateTokenDisplay();
+            showResult('authResult', { message: 'Token cleared' }, true);
+        }
+        
+        function showResult(elementId, data, success = true) {
+            const element = document.getElementById(elementId);
+            const status = success ? 'success' : 'error';
+            const statusText = success ? '✓ Success' : '✗ Error';
+            
+            element.innerHTML = `
+                <span class="status ${status}">${statusText}</span>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        }
+        
+        async function apiCall(endpoint, method = 'GET', body = null, useToken = false, isFormData = false) {
+            const headers = {};
+            
+            if (!isFormData) {
+                headers['Content-Type'] = 'application/json';
+            }
+            
+            if (useToken && token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const options = {
+                method,
+                headers
+            };
+            
+            if (body) {
+                options.body = isFormData ? body : JSON.stringify(body);
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}${endpoint}`, options);
+                const data = await response.json();
+                return { data, success: response.ok };
+            } catch (error) {
+                return { data: { error: error.message }, success: false };
+            }
+        }
+        
+        // AUTH TESTS
+        async function testRegister() {
+            const result = await apiCall('/auth/register.php', 'POST', {
+                username: document.getElementById('regUsername').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                full_name: document.getElementById('regFullName').value
+            });
+            
+            if (result.data.success && result.data.data?.token) {
+                token = result.data.data.token;
+                localStorage.setItem('token', token);
+                updateTokenDisplay();
+            }
+            
+            showResult('authResult', result.data, result.success);
+        }
+        
+        async function testLogin() {
+            const result = await apiCall('/auth/login.php', 'POST', {
+                username: document.getElementById('loginUsername').value,
+                password: document.getElementById('loginPassword').value
+            });
+            
+            if (result.data.success && result.data.data?.token) {
+                token = result.data.data.token;
+                localStorage.setItem('token', token);
+                updateTokenDisplay();
+            }
+            
+            showResult('authResult', result.data, result.success);
+        }
+        
+        async function testGetProfile() {
+            const result = await apiCall('/auth/profile.php', 'GET', null, true);
+            showResult('authResult', result.data, result.success);
+        }
+        
+        async function testLogout() {
+            const result = await apiCall('/auth/logout.php', 'POST', null, true);
+            if (result.data.success) {
+                clearToken();
+            }
+            showResult('authResult', result.data, result.success);
+        }
+        
+        // MOVIES TESTS
+        async function testGetMovies() {
+            const result = await apiCall('/movies/get_all.php?page=1&limit=5');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testGetMovie(id) {
+            const result = await apiCall(`/movies/get_detail.php?id=${id}`);
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testSearchMovies() {
+            const result = await apiCall('/movies/search.php?q=Inception');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testTrendingMovies() {
+            const result = await apiCall('/movies/trending.php?limit=5');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testTopRated() {
+            const result = await apiCall('/movies/top_rated.php?limit=5');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testGetGenres() {
+            const result = await apiCall('/movies/genres.php');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testMoviesByGenre() {
+            const result = await apiCall('/movies/by_genre.php?genre=Drama&limit=5');
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        async function testCreateMovie() {
+            const result = await apiCall('/movies/create.php', 'POST', {
+                title: document.getElementById('movieTitle').value,
+                release_year: document.getElementById('movieYear').value,
+                genre: document.getElementById('movieGenre').value,
+                synopsis: 'Test movie created via API'
+            }, true);
+            showResult('moviesResult', result.data, result.success);
+        }
+        
+        // REVIEWS TESTS
+        async function testGetReviewsByMovie(movieId) {
+            const result = await apiCall(`/reviews/get_by_movie.php?movie_id=${movieId}`);
+            showResult('reviewsResult', result.data, result.success);
+        }
+        
+        async function testCheckUserReview(movieId) {
+            const result = await apiCall(`/reviews/check_user_review.php?movie_id=${movieId}`, 'GET', null, true);
+            showResult('reviewsResult', result.data, result.success);
+        }
+        
+        async function testCreateReview() {
+            const result = await apiCall('/reviews/create.php', 'POST', {
+                movie_id: parseInt(document.getElementById('reviewMovieId').value),
+                rating: parseFloat(document.getElementById('reviewRating').value),
+                review_text: document.getElementById('reviewText').value,
+                is_spoiler: document.getElementById('reviewSpoiler').checked
+            }, true);
+            showResult('reviewsResult', result.data, result.success);
+        }
+        
+        async function testMarkHelpful(reviewId) {
+            const result = await apiCall('/reviews/mark_helpful.php', 'POST', {
+                review_id: reviewId
+            }, true);
+            showResult('reviewsResult', result.data, result.success);
+        }
+        
+        // WATCHLIST TESTS
+        async function testGetWatchlist() {
+            const result = await apiCall('/watchlist/get.php', 'GET', null, true);
+            showResult('watchlistResult', result.data, result.success);
+        }
+        
+        async function testCheckWatchlist(movieId) {
+            const result = await apiCall(`/watchlist/check.php?movie_id=${movieId}`, 'GET', null, true);
+            showResult('watchlistResult', result.data, result.success);
+        }
+        
+        async function testAddToWatchlist() {
+            const movieId = parseInt(document.getElementById('watchlistMovieId').value);
+            const result = await apiCall('/watchlist/add.php', 'POST', {
+                movie_id: movieId
+            }, true);
+            showResult('watchlistResult', result.data, result.success);
+        }
+        
+        async function testRemoveFromWatchlist() {
+            const movieId = parseInt(document.getElementById('watchlistMovieId').value);
+            const result = await apiCall('/watchlist/remove.php', 'DELETE', {
+                movie_id: movieId
+            }, true);
+            showResult('watchlistResult', result.data, result.success);
+        }
+        
+        // UPLOAD TESTS
+        async function testUploadPoster() {
+            const fileInput = document.getElementById('posterFile');
+            if (!fileInput.files[0]) {
+                showResult('uploadResult', { error: 'Please select a file' }, false);
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('poster', fileInput.files[0]);
+            
+            const result = await apiCall('/upload/poster.php', 'POST', formData, true, true);
+            showResult('uploadResult', result.data, result.success);
+        }
+        
+        async function testUploadProfile() {
+            const fileInput = document.getElementById('profileFile');
+            if (!fileInput.files[0]) {
+                showResult('uploadResult', { error: 'Please select a file' }, false);
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('profile', fileInput.files[0]);
+            
+            const result = await apiCall('/upload/profile.php', 'POST', formData, true, true);
+            showResult('uploadResult', result.data, result.success);
+        }
+        
+        // STATS TESTS
+        async function testGetStats() {
+            const result = await apiCall('/stats/dashboard.php', 'GET', null, true);
+            showResult('statsResult', result.data, result.success);
+        }
+    </script>
+</body>
+</html>

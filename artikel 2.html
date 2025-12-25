@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Panther: Wakanda Forever</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(15, 32, 39, 0.5);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 32, 39, 0.7);
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+            border-left: 5px solid #2c5364;
+            padding-left: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .meta-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7em;
+        }
+
+        .content-section {
+            margin-top: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(44, 83, 100, 0.1) 0%, rgba(15, 32, 39, 0.1) 100%);
+            border-left: 4px solid #2c5364;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #444;
+            text-align: justify;
+            font-size: 1.1em;
+            line-height: 1.9;
+        }
+
+        p::first-letter {
+            font-size: 3em;
+            font-weight: bold;
+            float: left;
+            line-height: 0.8;
+            margin: 5px 10px 0 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quote-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-size: 80px;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            color: #2c5364;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #434343 0%, #000000 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .rating-number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2c5364, transparent);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+
+            .rating-number {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back(); return false;">
+            ← Kembali ke Beranda
+        </a>
+        
+        <div class="header-section">
+            <h1>Black Panther: Warisan Budaya dan Kekuatan Sinematik</h1>
+            
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>11 November 2022</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span>161 Menit</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🎬</span>
+                    <span>Ryan Coogler</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <span class="tag">Superhero</span>
+            <span class="tag">Action</span>
+            <span class="tag">Drama</span>
+            <span class="tag">Marvel</span>
+        </div>
+
+        <div class="rating-section">
+            <div class="rating-number">3.3</div>
+            <div>
+                <div class="stars">★★★★☆</div>
+                <div style="font-size: 0.9em; margin-top: 5px;">Rating IMDb</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <p>Sekuel Wakanda Forever bukan sekadar aksi superhero, tetapi juga penghormatan emosional pada Chadwick Boseman dan nilai-nilai Afrika yang kuat. Film ini adalah penghormatan yang mendalam untuk mendiang aktor yang telah memberikan jiwa pada karakter Black Panther.</p>
+            
+            <div class="highlight-box">
+                💡 Marvel Studios berhasil menciptakan sekuel yang tidak hanya menghibur, tetapi juga penuh emosi dan makna yang mendalam tentang kehilangan dan kekuatan untuk melanjutkan.
+            </div>
+            
+            <p>Film ini memperkenalkan Namor, karakter baru yang kompleks dengan motivasi yang dapat dipahami. Konflik antara Wakanda dan Talokan mencerminkan tema universal tentang perlindungan budaya dan identitas. Pertarungan bukan hanya soal kekuatan fisik, tapi juga tentang mempertahankan warisan leluhur.</p>
+            
+            <div class="divider"></div>
+            
+            <p>Visual film ini spektakuler, dengan desain produksi yang menghormati budaya Afrika dan Mesoamerika. Kostum, musik, dan koreografi pertarungan semuanya terintegrasi dengan sempurna untuk menciptakan dunia yang hidup dan autentik. Setiap frame adalah karya seni yang menghargai keragaman budaya.</p>
+            
+            <div class="quote-section">
+                <p style="margin: 0; font-style: italic; color: #555;">
+                    Tanpa Chadwick Boseman, film ini tetap berhasil merayakan warisannya sambil membuka jalan bagi generasi baru pahlawan Wakanda.
+                </p>
+            </div>
+            
+            <p>Yang paling mengesankan adalah bagaimana film ini menangani tema kehilangan. Shuri, Okoye, M'Baku, dan Nakia semuanya mendapat ruang untuk berkembang sebagai karakter. "Wakanda Forever" membuktikan bahwa film superhero bisa lebih dari sekedar aksi - mereka bisa menjadi refleksi mendalam tentang nilai-nilai kemanusiaan, cinta, dan kekuatan untuk bangkit dari kesedihan.</p>
+        </div>
+    </div>
+</body>
+</html>

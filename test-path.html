@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Koneksi API</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #e50914; }
+        .test-box {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #e50914;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+        button {
+            background: #e50914;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #f00; }
+        pre {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #2d2d2d;
+            border: 1px solid #444;
+            color: white;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test Koneksi API</h1>
+    
+    <div class="test-box">
+        <h2>1. Deteksi Path Otomatis</h2>
+        <p>Current Page: <code id="currentPath"></code></p>
+        <p>Detected API Path: <code id="detectedPath"></code></p>
+    </div>
+
+    <div class="test-box">
+        <h2>2. Test Path Manual</h2>
+        <label>Masukkan path API Anda:</label>
+        <input type="text" id="manualPath" placeholder="http://localhost/movie-review/api" value="http://localhost/movie-review/api">
+        <button onclick="testManualPath()">Test Path Ini</button>
+        <div id="manualResult"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>3. Quick Tests</h2>
+        <button onclick="testPath('api')">Test: api</button>
+        <button onclick="testPath('./api')">Test: ./api</button>
+        <button onclick="testPath('../api')">Test: ../api</button>
+        <button onclick="testPath('http://localhost/movie-review/api')">Test: Full URL</button>
+        <button onclick="testPath('http://127.0.0.1/movie-review/api')">Test: 127.0.0.1</button>
+        <div id="testResults"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>4. Test Submit Review</h2>
+        <p>Gunakan path yang berhasil di atas:</p>
+        <input type="text" id="submitPath" placeholder="Masukkan path yang berhasil">
+        <button onclick="testSubmitReview()">Test Submit</button>
+        <div id="submitResult"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>📋 Logs</h2>
+        <pre id="logs"></pre>
+    </div>
+
+    <script>
+        const logs = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'success' ? '#0f0' : type === 'error' ? '#f00' : '#fff';
+            logs.push(`[${timestamp}] ${message}`);
+            document.getElementById('logs').innerHTML = logs.slice(-10).join('\n');
+            console.log(message);
+        }
+
+        // Deteksi path otomatis
+        const currentUrl = window.location.href;
+        document.getElementById('currentPath').textContent = currentUrl;
+
+        let detectedApiPath = 'api';
+        if (currentUrl.includes('localhost') || currentUrl.includes('127.0.0.1')) {
+            const urlParts = currentUrl.split('/');
+            const baseIndex = urlParts.indexOf('movie-review');
+            if (baseIndex !== -1) {
+                detectedApiPath = `http://${urlParts[2]}/movie-review/api`;
+            }
+        }
+        document.getElementById('detectedPath').textContent = detectedApiPath;
+        document.getElementById('manualPath').value = detectedApiPath;
+
+        async function testPath(path) {
+            log(`Testing path: ${path}`, 'info');
+            const testUrl = `${path}/get_reviews.php?movie_id=3`;
+            
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.innerHTML = `<p>⏳ Testing: <code>${testUrl}</code></p>`;
+
+            try {
+                const response = await fetch(testUrl);
+                const contentType = response.headers.get('content-type');
+                
+                log(`Response status: ${response.status}`, response.ok ? 'success' : 'error');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `
+                        <p class="success">✅ SUCCESS! Path yang benar:</p>
+                        <pre>${path}</pre>
+                        <p>Response:</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <button onclick="copyPath('${path}')">Copy Path Ini</button>
+                    `;
+                    log(`Success with path: ${path}`, 'success');
+                    document.getElementById('submitPath').value = path;
+                } else {
+                    const text = await response.text();
+                    throw new Error(`Not JSON response: ${text.substring(0, 100)}`);
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p class="error">❌ FAILED: ${error.message}</p>
+                    <p>Path: <code>${testUrl}</code></p>
+                `;
+                log(`Failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testManualPath() {
+            const path = document.getElementById('manualPath').value;
+            testPath(path);
+        }
+
+        async function testSubmitReview() {
+            const path = document.getElementById('submitPath').value;
+            if (!path) {
+                alert('Masukkan path API dulu!');
+                return;
+            }
+
+            const submitUrl = `${path}/submit_review.php`;
+            const submitDiv = document.getElementById('submitResult');
+            
+            submitDiv.innerHTML = '<p>⏳ Sending test review...</p>';
+            log(`Testing submit to: ${submitUrl}`, 'info');
+
+            try {
+                const response = await fetch(submitUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        movie_title: 'Dilan 1990',
+                        rating: 5,
+                        review_text: 'Test review dari path detector',
+                        user_name: 'Path Tester'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    submitDiv.innerHTML = `
+                        <p class="success">✅ BERHASIL! Review terkirim ke database!</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <p>Sekarang gunakan path ini di file HTML Anda:</p>
+                        <pre>const API_BASE_URL = '${path}';</pre>
+                    `;
+                    log('Submit review SUCCESS!', 'success');
+                } else {
+                    submitDiv.innerHTML = `
+                        <p class="error">❌ Error: ${data.message}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                    log(`Submit failed: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                submitDiv.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+                log(`Submit error: ${error.message}`, 'error');
+            }
+        }
+
+        function copyPath(path) {
+            navigator.clipboard.writeText(path);
+            alert('Path berhasil di-copy! Paste di file HTML Anda.');
+        }
+
+        // Auto-test detected path
+        window.onload = () => {
+            log('Page loaded, testing detected path...', 'info');
+            setTimeout(() => testPath(detectedApiPath), 500);
+        };
+    </script>
+</body>
+</html>

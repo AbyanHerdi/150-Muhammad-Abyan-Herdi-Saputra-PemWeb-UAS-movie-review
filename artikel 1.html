@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel Film Terbaru</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .header-section {
+            margin-bottom: 40px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .meta-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7em;
+        }
+
+        .content-section {
+            margin-top: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: justify;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        p::first-letter {
+            font-size: 3em;
+            font-weight: bold;
+            float: left;
+            line-height: 0.8;
+            margin: 5px 10px 0 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .quote-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-size: 80px;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            color: #667eea;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .rating-number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+
+            .rating-number {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back(); return false;">
+            ← Kembali ke Beranda
+        </a>
+        
+        <div class="header-section">
+            <h1>Oppenheimer: Film Epik tentang Sang Bapak Bom Atom</h1>
+            
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>21 Juli 2023</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span>180 Menit</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🎬</span>
+                    <span>Christopher Nolan</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tags">
+            <span class="tag">Biografi</span>
+            <span class="tag">Drama</span>
+            <span class="tag">Sejarah</span>
+            <span class="tag">IMAX</span>
+        </div>
+
+        <div class="rating-section">
+            <div class="rating-number">4.5</div>
+            <div>
+                <div class="stars">★★★★★</div>
+                <div style="font-size: 0.9em; margin-top: 5px;">Rating IMDb</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <p>Christopher Nolan kembali membuktikan keahliannya dalam menyutradarai film biografis yang kompleks. "Oppenheimer" mengisahkan perjalanan J. Robert Oppenheimer dalam mengembangkan senjata nuklir pertama di dunia.</p>
+            
+            <div class="highlight-box">
+                💡 Film ini bukan hanya tentang sains, tetapi juga tentang tanggung jawab, ambisi, dan beban kemanusiaan yang harus ditanggung oleh seorang jenius.
+            </div>
+            
+            <p>Film ini menggali konflik moral yang mendalam - bagaimana seorang jenius fisika menghadapi konsekuensi dari penemuannya yang dapat menghancurkan peradaban. Dengan sinematografi yang memukau dan akting Cillian Murphy yang luar biasa, film ini berhasil menyampaikan kompleksitas karakter Oppenheimer.</p>
+            
+            <div class="divider"></div>
+            
+            <p>Nolan menggunakan teknik IMAX 70mm untuk menciptakan pengalaman visual yang menakjubkan, terutama pada adegan uji coba Trinity - ledakan nuklir pertama di sejarah. Film ini bukan hanya tentang sains, tetapi juga tentang tanggung jawab, ambisi, dan beban kemanusiaan.</p>
+            
+            <div class="quote-section">
+                <p style="margin: 0; font-style: italic; color: #555;">
+                    Nolan menciptakan masterpiece sinema yang mempertanyakan moralitas perang dan kemajuan teknologi dengan cara yang belum pernah ada sebelumnya.
+                </p>
+            </div>
+            
+            <p>Dengan durasi 3 jam, "Oppenheimer" berhasil membuat penonton tetap terpaku pada layar, mempertanyakan moralitas perang dan kemajuan teknologi. Film ini telah memenangkan berbagai penghargaan dan menjadi salah satu film terpenting tahun 2023.</p>
+        </div>
+    </div>
+</body>
+</html>

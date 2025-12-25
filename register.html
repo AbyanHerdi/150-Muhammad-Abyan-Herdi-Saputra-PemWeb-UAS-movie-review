@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html><body>
+<h2>Register admin</h2>
+<input id="u" placeholder="username" value="admin"><br>
+<input id="e" placeholder="email" value="admin@mail.com"><br>
+<input id="p" placeholder="password" value="password" type="password"><br>
+<button onclick="go()">Register</button>
+<pre id="r"></pre>
+<script>
+async function go(){
+  const res = await fetch('http://localhost/movie-review/api/auth/register.php',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      username:u.value,email:e.value,password:p.value,full_name:'Administrator'
+    })
+  });
+  r.textContent = await res.text();
+}
+</script>
+</body></html>

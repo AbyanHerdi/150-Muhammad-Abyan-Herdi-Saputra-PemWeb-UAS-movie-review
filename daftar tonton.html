@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tonton Saya - CineScope</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================
+           STYLE CSS UMUM
+        =========================== */
+        :root {
+            --primary-color: #e50914;
+            --background-dark: #0a0a0a;
+            --card-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --star-gold: #ffc107;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background-dark); color: var(--text-light); line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; background-color: var(--card-dark); border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
+        
+        .header h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            border-bottom: 2px solid var(--star-gold);
+            padding-bottom: 10px;
+        }
+
+        /* Gaya Grid untuk Daftar Film */
+        .watchlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .movie-card {
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px; /* Tinggi tetap untuk konsistensi */
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-info h3 {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: var(--text-light);
+            height: 40px; /* Biar konsisten tingginya */
+            overflow: hidden;
+        }
+
+        .movie-info p {
+            font-size: 0.85em;
+            color: #ccc;
+        }
+
+        .remove-btn {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            width: 100%;
+            padding: 10px 0;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #2c2c2c;
+            border-radius: 8px;
+            color: #ccc;
+            font-style: italic;
+        }
+        .back-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px; /* Jarak antara tombol dan header */
+    padding: 8px 15px;
+    background-color: #333;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.back-link:hover {
+    background-color: var(--primary-color); /* Berubah merah saat disentuh */
+}
+    </style>
+</head>
+<body>
+   <div class="container">
+        <a href="user.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </a>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-bookmark"></i> Daftar Tonton Saya</h1>
+            <p id="userStatus" style="color: #bbb;"></p>
+        </div>
+
+        <div id="watchlistContainer" class="watchlist-grid">
+            </div>
+        
+    </div>
+
+    <script>
+        const WATCHLIST_KEY = 'cineScopeWatchlist';
+        const CURRENT_USER_EMAIL = localStorage.getItem('cineScopeCurrentUser') || 'guest@cinescope.com';
+        const container = document.getElementById('watchlistContainer');
+        const userStatus = document.getElementById('userStatus');
+
+        function getWatchlist() {
+            const watchlistData = JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || {};
+            return watchlistData[CURRENT_USER_EMAIL] || [];
+        }
+
+        function saveWatchlist(watchlist) {
+            const watchlistData = JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || {};
+            watchlistData[CURRENT_USER_EMAIL] = watchlist;
+            localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistData));
+        }
+
+        function removeMovie(movieId) {
+            let watchlist = getWatchlist();
+            const initialLength = watchlist.length;
+            
+            // Hapus film berdasarkan ID
+            watchlist = watchlist.filter(movie => movie.id !== movieId);
+            
+            if (watchlist.length < initialLength) {
+                saveWatchlist(watchlist);
+                renderWatchlist(); // Muat ulang tampilan
+                alert('Film berhasil dihapus dari Daftar Tonton.');
+            }
+        }
+
+        function renderWatchlist() {
+            const watchlist = getWatchlist();
+            container.innerHTML = '';
+            
+            if (CURRENT_USER_EMAIL === 'guest@cinescope.com' && !localStorage.getItem('isLoggedIn')) {
+                 userStatus.innerHTML = 'Anda sedang dalam mode tamu. <a href="login.html" style="color: var(--primary-color); text-decoration: none;">Masuk</a> untuk menyimpan Daftar Tonton secara permanen.';
+            } else {
+                 userStatus.textContent = `Daftar Tonton untuk pengguna: ${CURRENT_USER_EMAIL}`;
+            }
+
+            if (watchlist.length === 0) {
+                container.className = '';
+                container.innerHTML = `
+                    <div class="empty-message">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2em; margin-bottom: 10px; color: var(--primary-color);"></i>
+                      
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.className = 'watchlist-grid'; // Pastikan grid aktif jika ada film
+
+            watchlist.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <div class="movie-info">
+                        <h3>${movie.title}</h3>
+                        <p>${movie.genre}</p>
+                        <button class="remove-btn" data-movie-id="${movie.id}">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            // Tambahkan event listener untuk tombol hapus
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const movieId = this.getAttribute('data-movie-id');
+                    removeMovie(movieId);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderWatchlist);
+    </script>
+</body>
+</html>

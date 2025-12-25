@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beri Review Film Dilan 1990 - CineScope</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================
+           STYLE CSS LENGKAP - DISINKRONKAN
+        =========================== */
+        :root {
+            --primary-color: #e50914; /* Merah CineScope */
+            --background-dark: #0a0a0a;
+            --card-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --star-gold: #ffc107;
+            --input-bg: #2d2d2d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background-dark); color: var(--text-light); line-height: 1.6; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; background-color: var(--card-dark); border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
+        
+        /* --- BACK BUTTON STYLE --- */
+        .back-to-home {
+            display: inline-block;
+            background-color: #333;
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            font-weight: 600;
+        }
+        .back-to-home:hover {
+            background-color: #555;
+        }
+
+        .movie-header { display: flex; gap: 20px; margin-bottom: 30px; align-items: flex-start; }
+        .movie-poster { width: 150px; height: 225px; object-fit: cover; border-radius: 8px; }
+        .movie-info h1 { color: var(--primary-color); margin-bottom: 5px; font-size: 2em; }
+        .movie-info p { color: #ccc; margin-bottom: 10px; }
+
+        /* Rating Summary */
+        .rating-summary { display: flex; align-items: center; gap: 15px; margin-top: 15px; padding: 10px 0; border-top: 1px solid #333; }
+        .rating-box { background-color: #333; padding: 8px 15px; border-radius: 5px; text-align: center; }
+        .rating-box .score { font-size: 1.8em; font-weight: 700; color: var(--star-gold); line-height: 1; }
+        .rating-box .count { font-size: 0.8em; color: #aaa; margin-top: 2px; }
+
+        /* Review Form Section */
+        .review-form-section { margin-bottom: 40px; padding: 20px; border: 1px solid #333; border-radius: 8px; }
+        .review-form-section h2 { font-size: 1.8em; color: var(--primary-color); margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-light); }
+        
+        textarea {
+            width: 100%; min-height: 120px; padding: 10px; border-radius: 4px; border: 1px solid #444;
+            background-color: var(--input-bg); color: var(--text-light); resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color); color: var(--text-light); padding: 10px 25px;
+            border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: background-color 0.3s;
+        }
+        .submit-btn:hover { background-color: #f00; }
+
+        /* Like Button Style */
+        .like-btn { background-color: #3498db; transition: background-color 0.3s; border: none; padding: 10px 15px; }
+        .like-btn:hover { background-color: #2980b9; }
+        .liked { background-color: var(--primary-color); }
+        .liked:hover { background-color: #c0392b; }
+        
+        /* Style untuk tombol/link Review Saya */
+        .review-link { background-color: #2ecc71; }
+        .review-link:hover { background-color: #27ae60; }
+
+        /* Star Rating */
+        .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+        .star-rating input { display: none; }
+        .star-rating label { font-size: 2.5em; color: #444; cursor: pointer; padding: 0 5px; transition: color 0.2s; }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label { color: var(--star-gold); }
+        
+        /* Ulasan Saya Section */
+        .my-reviews-section { margin-bottom: 40px; }
+        .my-reviews-section h2 { font-size: 1.8em; color: var(--text-light); margin-bottom: 25px; border-bottom: 2px solid var(--star-gold); padding-bottom: 5px; }
+
+        .review-item {
+            background-color: #333; padding: 15px 20px; border-radius: 6px; margin-bottom: 15px;
+            border-left: 5px solid var(--primary-color); 
+        }
+        .rating-display { margin-bottom: 10px; }
+        .review-item p { margin-bottom: 10px; font-size: 1em; color: #e0e0e0; }
+        .reviewer-info { font-size: 0.85em; color: #aaa; text-align: right; border-top: 1px dashed #555; padding-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <button class="back-to-home" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+        <section class="movie-header">
+            <img src="c:\Users\Admin\Downloads\foto ssssssss\250px-Dilan_1990_(poster).jpg" alt="Poster Film Dilan 1990" class="movie-poster">
+            <div class="movie-info">
+                <h1>Dilan 1990</h1>
+                <p>2018 • Drama, Romantis • 1h 50m</p>
+                <p>Sutradara: Fajar Bustomi • Pemain: Iqbaal Ramadhan, Vanesha Prescilla</p>
+                
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                    <button id="likeButton" class="submit-btn like-btn" data-movie-id="DILAN_1990">
+                        <i class="fas fa-thumbs-up"></i> <span id="likeText">Suka</span>
+                    </button>
+                    <a href="daftar tonton.html" class="submit-btn" style="text-decoration: none; display: inline-block; background-color: #333;"><i class="fas fa-bookmark"></i> Daftar Tonton</a>
+                    
+                    <a href="ulasan dilan.html" class="submit-btn review-link" style="text-decoration: none; display: inline-block;">
+                        <i class="fas fa-eye"></i> Lihat Ulasan Saya
+                    </a>
+                </div>
+                
+                <div class="rating-summary" style="margin-top: 25px;">
+                    <div class="rating-box">
+                        <div class="score" id="averageRating">4.7/5</div>
+                        <div class="count">Rata-Rata</div>
+                    </div>
+                    <div class="rating-box">
+                        <div class="score" id="reviewCount">5</div>
+                        <div class="count">Total Ulasan</div>
+                    </div>
+                     <a href="c:\Users\Admin\Downloads\Official Trailer Dilan 1990.mp4" class="submit-btn review-link" style="text-decoration: none; display: inline-block;">
+                        <i class="fas fa-eye"></i> Trailer
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="review-form-section">
+            <h2><i class="fas fa-edit"></i> Berikan Ulasan dan Rating Anda</h2>
+            <form id="reviewForm">
+                
+                <div class="form-group">
+                    <label>Rating Anda (1-5 Bintang)</label>
+                    <div class="star-rating" id="ratingInput">
+                        <input type="radio" id="star5" name="rating" value="5" required><label for="star5" title="Sangat Suka"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="Bagus"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="Lumayan"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="Kurang"><i class="fas fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="Buruk"><i class="fas fa-star"></i></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewText">Ulasan Anda:</label>
+                    <textarea id="reviewText" placeholder="Tuliskan ulasan Anda tentang Dilan 1990 di sini..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Kirim Ulasan</button>
+            </form>
+        </section>
+        
+        <section class="my-reviews-section">
+            <h2><i class="fas fa-user-check"></i> Ulasan Saya</h2>
+            <div id="my-reviews-display">
+                </div>
+        </section>
+        
+    </div>
+
+   <script>
+const STORAGE_KEY = 'dilan1990Reviews'; // pastikan sama seperti di script.js utama
+const CURRENT_USER_NAME = 'Pengguna CineScope Baru'; 
+const WATCHLIST_KEY = 'cineScopeWatchlist';
+const CURRENT_USER_EMAIL = localStorage.getItem('cineScopeCurrentUser') || 'guest@cinescope.com'; 
+
+const MOVIE_DATA = {
+  id: 'DILAN_1990',
+  title: 'Dilan 1990',
+  poster: 'https://via.placeholder.com/150x225?text=DILAN+1990',
+  genre: 'Drama, Romantis'
+};
+
+// --- Default Review Data ---
+const defaultReviews = [
+  { rating: 5, text: 'Milea, kamu cantik.', name: 'DilanFans90', date: '2019-02-14' },
+  { rating: 4, text: 'Film yang berhasil membangkitkan nostalgia tahun 90-an.', name: 'NostalgiaGeek', date: '2020-07-22' },
+  { rating: 5, text: 'Dia adalah Dilanku. Ini review saya!', name: CURRENT_USER_NAME, date: '2025-01-01' }
+];
+
+const reviewForm = document.getElementById('reviewForm');
+const myReviewsDisplay = document.getElementById('my-reviews-display');
+const reviewCountSpan = document.getElementById('reviewCount');
+const averageRatingSpan = document.getElementById('averageRating');
+const likeButton = document.getElementById('likeButton');
+const likeText = document.getElementById('likeText');
+
+// ===================================
+// Watchlist Logic
+// ===================================
+function getWatchlist() {
+  const watchlistData = JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || {};
+  return watchlistData[CURRENT_USER_EMAIL] || [];
+}
+
+function saveWatchlist(watchlist) {
+  const watchlistData = JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || {};
+  watchlistData[CURRENT_USER_EMAIL] = watchlist;
+  localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistData));
+}
+
+function updateLikeButtonState(watchlist) {
+  const isLiked = watchlist.some(movie => movie.id === MOVIE_DATA.id);
+  if (isLiked) {
+    likeButton.classList.add('liked');
+    likeText.textContent = 'Disukai';
+    likeButton.querySelector('i').className = 'fas fa-heart';
+  } else {
+    likeButton.classList.remove('liked');
+    likeText.textContent = 'Suka';
+    likeButton.querySelector('i').className = 'fas fa-thumbs-up';
+  }
+}
+
+likeButton.addEventListener('click', function() {
+  let watchlist = getWatchlist();
+  const isLiked = watchlist.some(movie => movie.id === MOVIE_DATA.id);
+
+  if (isLiked) {
+    watchlist = watchlist.filter(movie => movie.id !== MOVIE_DATA.id);
+    alert(`Film "${MOVIE_DATA.title}" dihapus dari Daftar Tonton.`);
+  } else {
+    watchlist.push(MOVIE_DATA);
+    alert(`Film "${MOVIE_DATA.title}" ditambahkan ke Daftar Tonton!`);
+  }
+
+  saveWatchlist(watchlist);
+  updateLikeButtonState(watchlist);
+});
+
+// ===================================
+// Review Logic
+// ===================================
+function createStarHtml(rating) {
+  return Array(5).fill().map((_, i) =>
+    `<i class="fas fa-star" style="color: ${i < rating ? 'var(--star-gold)' : '#444'}; font-size: 1.1rem;"></i>`
+  ).join('');
+}
+
+function renderReviews(reviewsArray, targetElement) {
+  targetElement.innerHTML = '';
+  if (reviewsArray.length === 0) {
+    targetElement.innerHTML = `<p style="color:#777; font-style: italic;">Anda belum membuat ulasan untuk film ini.</p>`;
+    return;
+  }
+  reviewsArray.slice().reverse().forEach(review => {
+    const reviewItem = document.createElement('div');
+    reviewItem.className = 'review-item';
+    reviewItem.innerHTML = `
+      <div class="rating-display">${createStarHtml(review.rating)}</div>
+      <p>${review.text || '(Tidak ada ulasan tertulis)'}</p>
+      <div class="reviewer-info">${review.name} - ${review.date}</div>
+    `;
+    targetElement.appendChild(reviewItem);
+  });
+}
+
+function loadReviews() {
+  let reviews = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (!reviews || reviews.length === 0) {
+    reviews = defaultReviews;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultReviews));
+  }
+
+  const myReviews = reviews.filter(review => review.name === CURRENT_USER_NAME);
+  renderReviews(myReviews, myReviewsDisplay);
+
+  reviewCountSpan.textContent = reviews.length;
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  const averageRating = (totalRating / reviews.length).toFixed(1);
+  averageRatingSpan.textContent = `${averageRating}/5`;
+
+  // 🔥 Update data global trending setiap kali load
+  updateTrendingStorage(reviews, averageRating);
+}
+
+// ===================================
+// 🔥 Fungsi Sinkron ke Sistem Trending
+// ===================================
+function updateTrendingStorage(reviews, avg) {
+  const trendingData = {
+    rating: parseFloat(avg),
+    count: reviews.length
+  };
+
+  // simpan ke localStorage agar script.js utama langsung deteksi
+  localStorage.setItem('dilan1990Reviews', JSON.stringify(reviews));
+
+  console.log('📈 Trending Data Updated:', trendingData);
+
+  // kalau ada halaman utama terbuka, bisa auto refresh trending list
+  if (window.opener && !window.opener.closed) {
+    try {
+      window.opener.refreshTrendingNow?.();
+    } catch (e) {}
+  }
+}
+
+// ===================================
+// Submit Review Handler
+// ===================================
+reviewForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const selectedRating = document.querySelector('input[name="rating"]:checked');
+  const reviewText = document.getElementById('reviewText').value;
+
+  if (!selectedRating) {
+    alert("Harap berikan rating (bintang) sebelum mengirim ulasan!");
+    return;
+  }
+
+  const ratingValue = parseInt(selectedRating.value);
+  const newReview = {
+    rating: ratingValue,
+    text: reviewText,
+    name: CURRENT_USER_NAME,
+    date: new Date().toISOString().split('T')[0]
+  };
+
+  let reviews = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  reviews.push(newReview);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+
+  alert('✅ Ulasan Anda berhasil ditambahkan!');
+  loadReviews();
+  reviewForm.reset();
+});
+
+// ===================================
+// Init
+// ===================================
+loadReviews();
+const initialWatchlist = getWatchlist();
+updateLikeButtonState(initialWatchlist);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Reviews - Movie Review</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #667eea; margin-bottom: 20px; }
+        .info { background: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2196F3; }
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px 5px;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-danger { background: #dc3545; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+        .success { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Import Reviews dari localStorage ke Database</h1>
+        
+        <div class="info">
+            <strong>ℹ️ Info:</strong><br>
+            Tool ini akan membaca semua review dari localStorage browser Anda dan menyimpannya ke database MySQL.
+        </div>
+        
+        <button onclick="scanLocalStorage()" class="btn">🔍 Scan localStorage</button>
+        <button onclick="importAll()" class="btn">📥 Import Semua Review</button>
+        <button onclick="clearLocalStorage()" class="btn btn-danger">🗑️ Hapus localStorage</button>
+        
+        <h2 style="margin-top:30px;">📊 Hasil Scan:</h2>
+        <pre id="result">Klik "Scan localStorage" untuk melihat data...</pre>
+        
+        <h2 style="margin-top:30px;">📝 Log Import:</h2>
+        <pre id="log"></pre>
+    </div>
+    
+    <script>
+        // Mapping film title ke movie_id di database
+        const movieMapping = {
+            'Sore': 1,
+            'Petaka Gunung Gede': 2,
+            'Dilan 1990': 3,
+            'Rest Area': 4,
+            'Tukar Takdir': 5,
+            'Rangga & Cinta': 6
+        };
+        
+        let allReviews = [];
+        
+        function scanLocalStorage() {
+            allReviews = [];
+            const resultDiv = document.getElementById('result');
+            let output = '';
+            
+            // Keys yang menyimpan reviews
+            const reviewKeys = [
+                'soreReviews',
+                'petakaGunungGedeReviews', 
+                'dilan1990Reviews',
+                'restAreaReviews',
+                'tukarTakdirReviews',
+                'ranggaCintaReviews'
+            ];
+            
+            const movieNames = {
+                'soreReviews': 'Sore',
+                'petakaGunungGedeReviews': 'Petaka Gunung Gede',
+                'dilan1990Reviews': 'Dilan 1990',
+                'restAreaReviews': 'Rest Area',
+                'tukarTakdirReviews': 'Tukar Takdir',
+                'ranggaCintaReviews': 'Rangga & Cinta'
+            };
+            
+            reviewKeys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        const reviews = JSON.parse(data);
+                        const movieName = movieNames[key];
+                        const movieId = movieMapping[movieName];
+                        
+                        if (Array.isArray(reviews) && reviews.length > 0) {
+                            output += `\n=== ${movieName} (${reviews.length} reviews) ===\n`;
+                            
+                            reviews.forEach((review, index) => {
+                                allReviews.push({
+                                    movie_id: movieId,
+                                    movie_name: movieName,
+                                    username: review.username || review.user || 'Anonymous',
+                                    rating: review.rating || 8.0,
+                                    review_text: review.review || review.text || review.comment || 'No review text',
+                                    is_spoiler: review.spoiler || false
+                                });
+                                
+                                output += `${index + 1}. User: ${review.username || 'Anonymous'}\n`;
+                                output += `   Rating: ${review.rating || 'N/A'}\n`;
+                                output += `   Text: ${(review.review || review.text || 'N/A').substring(0, 100)}...\n\n`;
+                            });
+                        }
+                    } catch (e) {
+                        output += `Error parsing ${key}: ${e.message}\n`;
+                    }
+                }
+            });
+            
+            if (allReviews.length === 0) {
+                output = '❌ Tidak ada review ditemukan di localStorage!\n\nPastikan Anda sudah membuat review di website.';
+            } else {
+                output = `✅ Ditemukan ${allReviews.length} review dari ${reviewKeys.length} film!\n\n` + output;
+            }
+            
+            resultDiv.textContent = output;
+        }
+        
+        async function importAll() {
+            if (allReviews.length === 0) {
+                alert('Tidak ada review untuk di-import! Scan dulu dengan tombol "Scan localStorage"');
+                return;
+            }
+            
+            const logDiv = document.getElementById('log');
+            logDiv.textContent = 'Memulai import...\n\n';
+            
+            let success = 0;
+            let failed = 0;
+            
+            for (const review of allReviews) {
+                try {
+                    const response = await fetch('http://localhost/movie-review/submit_review.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(review)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        logDiv.textContent += `✅ ${review.movie_name} - ${review.username}: Success\n`;
+                        success++;
+                    } else {
+                        logDiv.textContent += `❌ ${review.movie_name} - ${review.username}: ${result.message}\n`;
+                        failed++;
+                    }
+                } catch (error) {
+                    logDiv.textContent += `❌ ${review.movie_name} - ${review.username}: ${error.message}\n`;
+                    failed++;
+                }
+                
+                // Delay untuk menghindari rate limit
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            logDiv.textContent += `\n=== SELESAI ===\n`;
+            logDiv.textContent += `✅ Berhasil: ${success}\n`;
+            logDiv.textContent += `❌ Gagal: ${failed}\n`;
+            
+            if (success > 0) {
+                logDiv.textContent += `\n🎉 Import selesai! Cek di admin panel: http://localhost/movie-review/admin.php?action=reviews`;
+            }
+        }
+        
+        function clearLocalStorage() {
+            if (confirm('Yakin ingin menghapus semua data review di localStorage?')) {
+                const keys = [
+                    'soreReviews',
+                    'petakaGunungGedeReviews',
+                    'dilan1990Reviews',
+                    'restAreaReviews',
+                    'tukarTakdirReviews',
+                    'ranggaCintaReviews'
+                ];
+                
+                keys.forEach(key => localStorage.removeItem(key));
+                
+                document.getElementById('log').textContent = '🗑️ localStorage telah dibersihkan!';
+                alert('localStorage berhasil dihapus! Refresh halaman untuk melihat perubahan.');
+            }
+        }
+        
+        // Auto scan on load
+        window.onload = function() {
+            scanLocalStorage();
+        };
+    </script>
+</body>
+</html>
